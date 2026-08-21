@@ -44,6 +44,23 @@ jobs:
           -p:AppxPackageSigningEnabled=False
           -p:PackageCertificateThumbprint=""
           -p:GenerateTemporaryStoreCertificate=False
+      - name: Build unsigned x64 sideload MSIX
+        run: >
+          dotnet msbuild src/Dhun.WinUI/Dhun.WinUI.csproj
+          /p:Configuration=Release /p:Platform=x64
+          /p:GenerateAppxPackageOnBuild=true
+          /p:AppxBundle=Never
+          /p:AppxPackageSigningEnabled=False
+          /p:PackageCertificateThumbprint=""
+          /p:GenerateTemporaryStoreCertificate=False
+          /p:UapAppxPackageBuildMode=SideloadOnly
+          /p:AppxPackageDir=${{ github.workspace }}/artifacts/msix/
+      - name: Upload unsigned native preview
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: DHUN-Native-0.1.0-unsigned-x64
+          path: artifacts/msix/**
+          if-no-files-found: error
       - name: Upload test results on failure
         if: failure()
         uses: actions/upload-artifact@v7.0.1
