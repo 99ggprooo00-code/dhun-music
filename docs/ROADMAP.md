@@ -28,7 +28,7 @@ The product version remains `0.1.0` throughout foundation development. Milestone
 - [ ] Verify mini-player and always-on-top
 - [ ] Verify system tray and SMTC/media keys
 - [ ] Verify file associations and startup task
-- [ ] Remove or hide integrations that depend on upstream credentials
+- [x] Remove or hide integrations that depend on upstream credentials
 - [ ] Add DHUN-owned crash diagnostics and privacy controls
 
 ## Milestone 2 — DHUN Fluent redesign
