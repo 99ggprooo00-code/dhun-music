@@ -9,13 +9,13 @@
         IgnorableNamespaces="uap uap3 uap5 rescap desktop">
 
     <Identity
-            Name="48743Nagi.Nagi"
-            Publisher="CN=83B77A15-7BA2-452B-A4A0-9DD253FA3D0E"
-            Version="2.0.2.0"/>
+            Name="DhunMusic.Dhun"
+            Publisher="CN=DHUN"
+            Version="0.1.0.0"/>
 
     <Properties>
         <DisplayName>ms-resource:Resources/AppName</DisplayName>
-        <PublisherDisplayName>Nagi</PublisherDisplayName>
+        <PublisherDisplayName>DHUN contributors</PublisherDisplayName>
         <Logo>Assets\StoreLogo.png</Logo>
     </Properties>
 
@@ -53,7 +53,7 @@
 
             <Extensions>
                 <uap:Extension Category="windows.fileTypeAssociation">
-                    <uap:FileTypeAssociation Name="nagi-music-files">
+                    <uap:FileTypeAssociation Name="dhun-music-files">
                         <uap:DisplayName>ms-resource:Resources/AppDisplayName</uap:DisplayName>
                         <uap:Logo>Assets\AppLogo.png</uap:Logo>
                         <uap:InfoTip>ms-resource:Resources/AppInfoTip</uap:InfoTip>
@@ -85,7 +85,7 @@
 
                 <uap5:Extension Category="windows.startupTask">
                     <uap5:StartupTask
-                            TaskId="NagiAutolaunchStartup"
+                            TaskId="DhunAutolaunchStartup"
                             Enabled="false"
                             DisplayName="ms-resource:Resources/StartupTaskDisplayName"/>
                 </uap5:Extension>

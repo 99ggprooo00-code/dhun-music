@@ -1,151 +1,58 @@
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/58f7a205-113d-463e-a2f3-d9979b935da1" alt="Nagi Logo">
+# DHUN Native
 
-# Nagi
+A Windows-first, privacy-oriented music player combining a serious local library with a staged online-music architecture.
 
-  **Rediscover your local music collection. A fast, private, and modern music player for Windows.**
+> **Status:** native foundation work in progress. The product version remains `0.1.0` until the native migration and core feature set are complete.
 
-<div align="center">
-    <a href="https://github.com/Anthonyy232/Nagi/stargazers"><img src="https://img.shields.io/github/stars/Anthonyy232/Nagi?style=flat-square" alt="GitHub Stars"></a>
-    <a href="https://github.com/Anthonyy232/Nagi/releases"><img src="https://img.shields.io/github/downloads/Anthonyy232/Nagi/total?style=flat-square&color=52c65f" alt="Total Downloads"></a>
-    <a href="https://github.com/Anthonyy232/Nagi/releases/latest"><img src="https://img.shields.io/github/v/release/Anthonyy232/Nagi?style=flat-square" alt="Latest Release"></a>
-    <a href="https://github.com/Anthonyy232/Nagi/blob/master/LICENSE"><img src="https://img.shields.io/github/license/Anthonyy232/Nagi?style=flat-square" alt="License"></a>
-    <a href="https://github.com/Anthonyy232/Nagi/actions/workflows/build.yml"><img src="https://github.com/Anthonyy232/Nagi/actions/workflows/build.yml/badge.svg" alt="Nagi CI/CD with Velopack"></a>
-    <img src="https://img.shields.io/badge/Platform-Windows-0078D6?style=flat-square&logo=windows" alt="Platform">
-    <img src="https://img.shields.io/badge/WinUI_3-59278F?style=flat-square&logo=windows&logoColor=white" alt="WinUI 3">
-</div>
+## Native foundation
 
-</div>
+DHUN Native is a GPL-3.0 fork of [Nagi](https://github.com/Anthonyy232/Nagi), currently based on upstream revision `60f593ce1a54315fe1247d7fd0a3d89bdca768eb`.
 
-<div>
-    <br>
-    <p>
-    Nagi is a music player focused on speed, simplicity, and privacy. Featuring a resizable mini-player, interactive lyrics, and wide format support, Nagi is built with C# and WinUI 3 to offer a clean, native Fluent experience. It's beautiful, efficient, and respects your privacy.
-    </p>
-</div>
+The native stack provides:
 
-<div align="center">
-  <img src="https://github.com/user-attachments/assets/a79450a7-d84e-4fe9-92b5-724b890e3e1d" alt="Nagi Library View" width="800" style="border-radius: 8px;">
-</div>
+- C# and .NET 10
+- WinUI 3 and Windows App SDK
+- MVVM with CommunityToolkit
+- EF Core and SQLite
+- LibVLCSharp local playback
+- ATL metadata extraction
+- local library scanning, queue, playlists, smart playlists and history
+- synchronized lyrics
+- equalizer and ReplayGain
+- mini-player, system tray and Windows media controls
+- file associations, startup integration and native Fluent UI
 
-## ✨ Features
+## DHUN direction
 
-- **Fluent & Modern UI**: A beautiful, responsive interface built with WinUI 3, featuring customizable backdrops (Mica, Mica Alt, Acrylic) and smooth animations.
-- **Dynamic Theming**: The app's color scheme adapts in real-time to the artwork of the currently playing song for a truly immersive experience.
-- **Synced Lyrics**: Display synced lyrics from embedded tags or external `.lrc` files. Tap any line to jump directly to that moment in the song.
-- **Resizable Mini-Player**: A sleek, always-on-top mini-player with playback controls, album art, and an efficiency mode for low resource usage.
-- **Folder-Based Library**: Add your music folders and Nagi automatically scans, organizes, and keeps your collection up to date.
-- **Playlists & Smart Playlists**: Create custom playlists or powerful rule-based smart playlists that automatically update as your library grows.
-- **Queue Management**: Build and customize your listening queue on the fly with full shuffle and repeat controls.
-- **10-Band Equalizer**: Fine-tune your sound with a fully customizable 10-band equalizer and pregain control.
-- **Volume Normalization**: ReplayGain support ensures consistent volume levels across your entire library.
-- **Last.fm & Discord Integration**: Scrobble your tracks to Last.fm, fetch artist metadata, and show off your listening activity with Discord Rich Presence.
-- **System Tray & Media Controls**: Control playback from the system tray popup or use Windows media keys and transport controls.
-- **Wide Format Support**: Play virtually any audio format including MP3, FLAC, AAC, OGG, WAV, AIFF, APE, DSD, M4A, WMA, WavPack, and more.
+DHUN will retain and rebrand the proven Windows infrastructure while adding an isolated online source layer and a unified model for local and online tracks.
 
-## 🖼️ Screenshots
+Planned source boundary:
 
-<div align="center">
-  <table border="0" cellspacing="10">
-    <tr>
-      <td><img src="https://github.com/user-attachments/assets/1387ccc4-d436-403b-8396-8888fbe1be26" width="100%" alt="album" /></td>
-      <td><img src="https://github.com/user-attachments/assets/c99ac0a0-7484-4b6c-8113-e6abc731f879" width="100%" alt="artist" /></td>
-      <td><img src="https://github.com/user-attachments/assets/ea46c4c4-8e22-4c45-9cd7-d275ea770e88" width="100%" alt="tray" /></td>
-    </tr>
-  </table>
-</div>
-
-## 📥 Download
-
-<div>
-  <a href="https://apps.microsoft.com/detail/9P1V1PPML3QT?referrer=appbadge&launch=true&mode=full">
-    <img src="https://get.microsoft.com/images/en-us%20dark.svg" alt="Download from Microsoft Store" width="300">
-  </a>
-      
-  <a href="https://github.com/Anthonyy232/Nagi/releases">
-    <img src="https://github.com/user-attachments/assets/f81e6835-068d-4513-894b-659b5ac7f0ea" alt="Download from GitHub" width="220">
-  </a>
-</div>
-
-## 🌍 Localization
-
-[![Crowdin](https://badges.crowdin.net/nagi/localized.svg)](https://crowdin.com/project/nagi)
-
-Localization support for Nagi is powered by Crowdin. Contributions to add new languages are always welcome!
-
-[Help Translate Nagi](https://crowdin.com/project/nagi)
-
-## 🛠️ Technologies
-
-- **[C#](https://docs.microsoft.com/en-us/dotnet/csharp/)** & **[.NET 10](https://dotnet.microsoft.com/)**: The core programming language and framework for building robust Windows applications.
-- **[WinUI 3](https://docs.microsoft.com/en-us/windows/apps/winui/winui3/)** in **[Windows App SDK](https://github.com/microsoft/WindowsAppSDK)**: The native UI platform for crafting modern, fluent interfaces on Windows.
-- **[LibVLCSharp](https://github.com/videolan/libvlcsharp)**: A cross-platform .NET binding for LibVLC, enabling robust and wide-ranging audio format support.
-- **[Community Toolkit for WinUI](https://github.com/CommunityToolkit/WindowsCommunityToolkit)**: A collection of controls, helpers, and services to simplify app development (e.g., ColorPicker, SettingsControls).
-- **[Community Toolkit MVVM](https://docs.microsoft.com/en-us/dotnet/communitytoolkit/mvvm/)**: A modern, fast, and platform-agnostic MVVM library.
-- **[Entity Framework Core (SQLite)](https://docs.microsoft.com/en-us/ef/core/)**: A modern object-relational mapper for .NET, used for local database storage.
-- **[ATL (Audio Tools Library)](https://github.com/Zeugma440/atldotnet)**: A versatile library for reading and writing metadata in audio files.
-- **[LrcParser](https://github.com/OpportunityLiu/LrcParser)**: For parsing LRC lyrics files.
-- **[SkiaSharp](https://github.com/mono/SkiaSharp)**: MIT-licensed cross-platform image processing.
-- **[MaterialColorUtilities](https://github.com/material-foundation/material-color-utilities)**: For generating dynamic color schemes from artwork.
-- **[H.NotifyIcon.WinUI](https://github.com/HavenDV/H.NotifyIcon)**: For creating and managing the Windows tray icon.
-- **[Serilog](https://serilog.net/)**: A structured logging library for diagnostics and debugging.
-- **[XAML Behaviors](https://github.com/Microsoft/XamlBehaviors)**: For implementing UI behaviors declaratively in XAML.
-- **[Velopack](https://velopack.io/)**: For automatic application updates (GitHub releases).
-- **[Microsoft Dependency Injection](https://docs.microsoft.com/en-us/dotnet/core/extensions/dependency-injection)**: For implementing a loosely coupled and testable architecture.
-
-*Thanks to the creators and maintainers of all the open-source libraries that make Nagi possible.*
-
-## 🚀 Build from Source
-
-This project is built using C# and the Windows App SDK.
-
-### Prerequisites
-
-- Visual Studio 2022 or later
-- The **".NET Desktop Development"** and **"Universal Windows Platform development"** workloads installed (includes Windows App SDK).
-- .NET 10 SDK
-
-### Steps
-
-1. Clone the repository:
-
-   ```bash
-   git clone https://github.com/Anthonyy232/Nagi.git
-   ```
-2. Navigate to the cloned directory and open `Nagi.sln` with Visual Studio.
-3. In Visual Studio, set the Solution Platform to `x64` (or your target architecture).
-4. Press `F5` or click the `▶ Nagi (Package)` button to build and run the application.
-
-   To build msixbundle, three commands must be ran in src/Nagi.WinUI (the first two will fail but create the proper R2R images):
-
-   ```bash
-   # 1. Pre-build binaries for both platforms (triggers PGO/R2R optimization)
-   dotnet publish Nagi.WinUI.csproj -c Release -r win-x64 -p:Platform=x64 -p:GenerateAppxPackageOnBuild=false
-   dotnet publish Nagi.WinUI.csproj -c Release -r win-arm64 -p:Platform=arm64 -p:GenerateAppxPackageOnBuild=false
-   # 2. Finalize the packaged MSIX bundle
-   msbuild Nagi.WinUI.csproj -p:Configuration=Release -p:Platform=x64 -p:GenerateAppxPackageOnBuild=true
-   ```
-
-### Development
-
-  To perform a database migration:
-
-```bash
-  dotnet ef migrations add <name> --project src\Nagi.Core --startup-project src\Nagi.Core --context MusicDbContext --no-build
+```text
+DHUN UI / Application Core
+├── Local source (Nagi/LibVLC foundation)
+└── Online source (official visible YouTube playback first)
 ```
 
-## 🤝 Contributions
+DHUN will not implement hidden YouTube playback, ad removal, stream extraction, or access-control bypassing.
 
-All contributions are welcome! Feel free to report issues, suggest features, or create pull requests for bug fixes and new features.
+## Build
 
-## ❤️ Support
+Requirements:
 
-If you enjoy using Nagi and want to support its development, you can do so via GitHub Sponsors. Your support is greatly appreciated!
+- Windows 10/11
+- Visual Studio with Windows App SDK tooling, or GitHub Actions Windows runner
+- .NET SDK 10.0.101 or compatible feature band
+- FFmpeg for the test suite
 
-<div align="center">
-  <a href="https://github.com/sponsors/Anthonyy232"><img src="https://img.shields.io/badge/Sponsor_on_GitHub-d75594?style=for-the-badge&logo=github&logoColor=white" alt="Sponsor on GitHub"></a>
-</div>
+```powershell
+dotnet test tests/Nagi.Core.Tests/Nagi.Core.Tests.csproj -c Release
+dotnet restore src/Nagi.WinUI/Nagi.WinUI.csproj
+dotnet publish src/Nagi.WinUI/Nagi.WinUI.csproj -c Release -r win-x64 -p:Platform=x64 -p:GenerateAppxPackageOnBuild=false
+```
 
-## 📄 License
+## Licensing
 
-This project is licensed under the **GNU General Public License v3.0**. See the [LICENSE](LICENSE) file for details.
+DHUN Native is licensed under GPL-3.0. See `LICENSE`, `UPSTREAM.md`, and `THIRD_PARTY.md`.
+
+The previous Electron implementation is preserved separately in the `dhun-music` repository under branch `legacy/electron-player-v2` and tag `electron-preview-archive-2026-08-22`.
