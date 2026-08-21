@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <StoreAssociation xmlns="http://schemas.microsoft.com/appx/2010/storeassociation">
-    <Publisher>CN=83B77A15-7BA2-452B-A4A0-9DD253FA3D0E</Publisher>
-    <PublisherDisplayName>Dhun</PublisherDisplayName>
+    <Publisher>CN=DHUN Development, OID.2.25.122407087008975748939002174685813570055=1</Publisher>
+    <PublisherDisplayName>DHUN contributors</PublisherDisplayName>
     <DeveloperAccountType>MSA</DeveloperAccountType>
     <GeneratePackageHash>http://www.w3.org/2001/04/xmlenc#sha256</GeneratePackageHash>
     <SupportedLocales>
