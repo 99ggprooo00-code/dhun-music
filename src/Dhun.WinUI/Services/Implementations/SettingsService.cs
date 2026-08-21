@@ -740,7 +740,7 @@ public class SettingsService : IUISettingsService, IDisposable
                     Id = ServiceProviderIds.TheAudioDb,
                     DisplayName = "TheAudioDB",
                     Category = ServiceCategory.Metadata,
-                    IsEnabled = true,
+                    IsEnabled = false,
                     Order = 1,
                     Description = Resources.Strings.Settings_Provider_TheAudioDB_Desc
                 },
@@ -749,7 +749,7 @@ public class SettingsService : IUISettingsService, IDisposable
                     Id = ServiceProviderIds.FanartTv,
                     DisplayName = "Fanart.tv",
                     Category = ServiceCategory.Metadata,
-                    IsEnabled = true,
+                    IsEnabled = false,
                     Order = 2,
                     Description = Resources.Strings.Settings_Provider_FanartTv_Desc
                 },
@@ -758,7 +758,7 @@ public class SettingsService : IUISettingsService, IDisposable
                     Id = ServiceProviderIds.LastFm,
                     DisplayName = "Last.fm",
                     Category = ServiceCategory.Metadata,
-                    IsEnabled = true,
+                    IsEnabled = false,
                     Order = 3,
                     Description = Resources.Strings.Settings_Provider_LastFm_Desc
                 }

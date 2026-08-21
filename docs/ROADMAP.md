@@ -14,8 +14,8 @@ The product version remains `0.1.0` throughout foundation development. Milestone
 - [x] Replace application artwork
 - [x] Remove upstream Azure, signing, benchmark, translation and release infrastructure
 - [x] Preserve GPL provenance and dependency notices
-- [ ] Rename internal projects and namespaces from `Nagi.*` to `Dhun.*`
-- [ ] Generate a sideloadable unsigned MSIX for foundation testing
+- [x] Rename internal projects and namespaces from `Nagi.*` to `Dhun.*`
+- [x] Generate a sideloadable unsigned MSIX for foundation testing
 
 ## Milestone 1 — Local Windows player regression
 

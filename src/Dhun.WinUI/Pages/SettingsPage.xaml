@@ -1033,10 +1033,11 @@
                         Style="{StaticResource SettingsPageResetButtonStyle}" />
                 </controls:SettingsCard>
 
-                <TextBlock Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{x:Bind resources:Strings.SettingsPage_Section_Integrations, Mode=OneTime}" />
+                <TextBlock Visibility="Collapsed" Style="{StaticResource SettingsSectionHeaderTextBlockStyle}" Text="{x:Bind resources:Strings.SettingsPage_Section_Integrations, Mode=OneTime}" />
 
                 <controls:SettingsExpander
                     x:Name="LastFmSettingsExpander"
+                    Visibility="Collapsed"
                     Header="{x:Bind resources:Strings.SettingsPage_LastFm_Header, Mode=OneTime}" Description="{x:Bind resources:Strings.SettingsPage_LastFm_Description, Mode=OneTime}">
                     <controls:SettingsExpander.HeaderIcon>
                         <PathIcon
@@ -1091,6 +1092,7 @@
 
                 <controls:SettingsExpander
                     x:Name="ListenBrainzSettingsExpander"
+                    Visibility="Collapsed"
                     Header="{x:Bind resources:Strings.SettingsPage_ListenBrainz_Header, Mode=OneTime}" Description="{x:Bind resources:Strings.SettingsPage_ListenBrainz_Description, Mode=OneTime}">
                     <controls:SettingsExpander.HeaderIcon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE9A1;" />
@@ -1163,6 +1165,7 @@
                 </controls:SettingsExpander>
 
                 <controls:SettingsCard
+                    Visibility="Collapsed"
                     Header="{x:Bind resources:Strings.SettingsPage_Discord_Header, Mode=OneTime}" Description="{x:Bind resources:Strings.SettingsPage_Discord_Description, Mode=OneTime}">
                     <controls:SettingsCard.HeaderIcon>
                         <PathIcon
