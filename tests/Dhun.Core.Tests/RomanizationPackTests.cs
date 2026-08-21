@@ -299,8 +299,8 @@ public sealed class RomanizationPackTests : IDisposable
         var httpFactory = new StaticHttpClientFactory(new Dictionary<string, byte[]>
         {
             [RomanizationPackManager.DefaultCatalogUrl] = Encoding.UTF8.GetBytes(catalogJson),
-            ["https://packs.test/hindi.dhunpack"] = packBytes,
-            ["https://packs.test/unknown.dhunpack"] = packBytes
+            ["https://packs.test/hindi.nagipack"] = packBytes,
+            ["https://packs.test/unknown.nagipack"] = packBytes
         });
 
         var pathConfig = new TestPathConfiguration(_tempRoot);
@@ -416,7 +416,7 @@ public sealed class RomanizationPackTests : IDisposable
             Attribution = "Test",
             SizeBytes = bytes.Length,
             Sha256 = Convert.ToHexString(SHA256.HashData(bytes)),
-            DownloadUrl = $"https://packs.test/{id}.dhunpack"
+            DownloadUrl = $"https://packs.test/{id}.nagipack"
         };
     }
 

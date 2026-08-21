@@ -114,7 +114,7 @@ public sealed class RomanizationPackManager : IRomanizationPackManager
                 return RomanizationPackOperationResult.Failure("Pack download URL must use HTTPS.");
 
             EnsurePackRoot();
-            var tempArchivePath = Path.Combine(PackRoot, $"{Guid.NewGuid():N}.dhunpack");
+            var tempArchivePath = Path.Combine(PackRoot, $"{Guid.NewGuid():N}.nagipack");
             var tempExtractPath = Path.Combine(PackRoot, $"{Guid.NewGuid():N}.tmp");
 
             try

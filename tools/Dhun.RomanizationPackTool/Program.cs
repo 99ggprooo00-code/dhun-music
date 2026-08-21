@@ -31,7 +31,7 @@ foreach (var packDirectory in Directory.EnumerateDirectories(options.SourceDirec
         jsonOptions) ?? throw new InvalidOperationException($"Invalid manifest: {manifestPath}");
 
     var metadata = await ReadMetadataAsync(packDirectory, jsonOptions);
-    var archiveName = $"{manifest.Id}-{manifest.Version}.dhunpack";
+    var archiveName = $"{manifest.Id}-{manifest.Version}.nagipack";
     var archivePath = Path.Combine(options.OutputDirectory, archiveName);
     if (File.Exists(archivePath)) File.Delete(archivePath);
 
@@ -75,7 +75,7 @@ var unsignedPath = Path.Combine(options.OutputDirectory, "catalog.unsigned.json"
 await File.WriteAllTextAsync(unsignedPath, JsonSerializer.Serialize(unsignedEnvelope, jsonOptions));
 Console.WriteLine($"Wrote unsigned catalog -> {unsignedPath}");
 
-var privateKeyPem = Environment.GetEnvironmentVariable("DHUN_ROMANIZATION_CATALOG_PRIVATE_KEY_PEM");
+var privateKeyPem = Environment.GetEnvironmentVariable("NAGI_ROMANIZATION_CATALOG_PRIVATE_KEY_PEM");
 if (!string.IsNullOrWhiteSpace(privateKeyPem))
 {
     privateKeyPem = privateKeyPem.Replace("\\n", Environment.NewLine, StringComparison.Ordinal);
@@ -91,7 +91,7 @@ if (!string.IsNullOrWhiteSpace(privateKeyPem))
 }
 else
 {
-    Console.WriteLine("Set DHUN_ROMANIZATION_CATALOG_PRIVATE_KEY_PEM to emit signed catalog.json.");
+    Console.WriteLine("Set NAGI_ROMANIZATION_CATALOG_PRIVATE_KEY_PEM to emit signed catalog.json.");
 }
 
 static async Task<CatalogEntryMetadata> ReadMetadataAsync(string packDirectory, JsonSerializerOptions jsonOptions)
@@ -157,7 +157,7 @@ internal sealed class PackToolOptions
 {
     public string SourceDirectory { get; private init; } = Path.Combine("tools", "romanization-packs", "src");
     public string OutputDirectory { get; private init; } = Path.Combine("tools", "romanization-packs", "dist");
-    public string BaseDownloadUrl { get; private init; } = "https://github.com/Anthonyy232/Dhun/releases/download/romanization-packs";
+    public string BaseDownloadUrl { get; private init; } = "https://github.com/Anthonyy232/Nagi/releases/download/romanization-packs";
 
     public static PackToolOptions Parse(string[] args)
     {
