@@ -3,7 +3,7 @@ name: DHUN Native Foundation Verification
 on:
   workflow_dispatch:
   push:
-    branches: [windows-foundation]
+    branches: [main, windows-foundation]
 
 permissions:
   contents: read
