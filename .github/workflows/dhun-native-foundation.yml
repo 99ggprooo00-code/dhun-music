@@ -1,0 +1,54 @@
+name: DHUN Native Foundation Verification
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [windows-foundation]
+
+permissions:
+  contents: read
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+jobs:
+  verify-native-foundation:
+    runs-on: windows-latest
+    steps:
+      - uses: actions/checkout@v7.0.0
+      - uses: actions/setup-dotnet@v5.4.0
+        with:
+          dotnet-version: 10.0.x
+          cache: true
+          cache-dependency-path: |
+            **/*.csproj
+            **/Directory.Build.props
+            **/NuGet.config
+      - uses: FedericoCarboni/setup-ffmpeg@v3.1
+      - name: Test Nagi core unchanged
+        run: dotnet test tests/Nagi.Core.Tests/Nagi.Core.Tests.csproj -c Release --logger "trx;logfilename=foundation-tests.trx"
+      - name: Create local empty app settings
+        shell: pwsh
+        run: |
+          @{ Discord = @{ AppId = '' }; NagiApiServer = @{ Url = ''; ApiKey = '' } } |
+            ConvertTo-Json -Depth 3 | Out-File src/Nagi.WinUI/appsettings.json -Encoding UTF8
+      - name: Restore native Windows project
+        run: dotnet restore src/Nagi.WinUI/Nagi.WinUI.csproj
+      - name: Compile x64 native foundation unchanged
+        run: >
+          dotnet publish src/Nagi.WinUI/Nagi.WinUI.csproj
+          -c Release -r win-x64
+          -p:Platform=x64
+          -p:PublishReadyToRun=true
+          -p:GenerateAppxPackageOnBuild=false
+          -p:AppxPackageSigningEnabled=False
+          -p:PackageCertificateThumbprint=""
+          -p:GenerateTemporaryStoreCertificate=False
+      - name: Upload test results on failure
+        if: failure()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: native-foundation-diagnostics
+          path: |
+            **/foundation-tests.trx
+            **/*.binlog
