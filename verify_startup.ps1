@@ -15,7 +15,9 @@ dotnet publish $project `
   -p:GenerateTemporaryStoreCertificate=False
 if ($LASTEXITCODE -ne 0) { throw 'DHUN publish failed.' }
 
-$exe = Get-ChildItem 'src\Dhun.WinUI\bin\Release\**\publish\DHUN.exe' -Recurse | Select-Object -First 1
+$exe = Get-ChildItem 'src\Dhun.WinUI\bin\Release' -Filter 'DHUN.exe' -Recurse |
+  Where-Object { $_.FullName -match '[\\/]publish[\\/]DHUN\.exe$' } |
+  Select-Object -First 1
 if (-not $exe) { throw 'Published DHUN.exe was not found.' }
 
 Write-Host "[verify] Launching $($exe.FullName)" -ForegroundColor Cyan
