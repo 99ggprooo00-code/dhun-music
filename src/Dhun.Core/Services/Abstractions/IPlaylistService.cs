@@ -1,0 +1,22 @@
+using Dhun.Core.Models;
+using Dhun.Core.Services.Data;
+
+namespace Dhun.Core.Services.Abstractions;
+
+/// <summary>
+///     Defines the contract for madhunng playlists.
+/// </summary>
+public interface IPlaylistService
+{
+    event EventHandler<PlaylistUpdatedEventArgs>? PlaylistUpdated;
+    event EventHandler? PlaylistsChanged;
+
+    Task<Playlist?> CreatePlaylistAsync(string name, string? description = null, string? coverImageUri = null);
+    Task<bool> DeletePlaylistAsync(Guid playlistId);
+    Task<bool> RenamePlaylistAsync(Guid playlistId, string newName);
+    Task<bool> UpdatePlaylistCoverAsync(Guid playlistId, string? newCoverImageUri);
+    Task<bool> AddSongsToPlaylistAsync(Guid playlistId, IEnumerable<Guid> songIds);
+    Task<bool> RemoveSongsFromPlaylistAsync(Guid playlistId, IEnumerable<Guid> songIds);
+    Task<bool> UpdatePlaylistOrderAsync(Guid playlistId, IEnumerable<Guid> orderedSongIds);
+    Task<bool> MovePlaylistSongAsync(Guid playlistId, Guid songId, double newOrder);
+}

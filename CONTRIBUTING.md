@@ -14,9 +14,9 @@ DHUN Native is a GPL-3.0 Windows music player derived from Nagi. Contributions m
 At minimum:
 
 ```powershell
-dotnet test tests/Nagi.Core.Tests/Nagi.Core.Tests.csproj -c Release
-dotnet restore src/Nagi.WinUI/Nagi.WinUI.csproj
-dotnet publish src/Nagi.WinUI/Nagi.WinUI.csproj -c Release -r win-x64 -p:Platform=x64 -p:GenerateAppxPackageOnBuild=false
+dotnet test tests/Dhun.Core.Tests/Dhun.Core.Tests.csproj -c Release
+dotnet restore src/Dhun.WinUI/Dhun.WinUI.csproj
+dotnet publish src/Dhun.WinUI/Dhun.WinUI.csproj -c Release -r win-x64 -p:Platform=x64 -p:GenerateAppxPackageOnBuild=false
 ```
 
 Changes to playback, storage, scanning, lyrics, queue or metadata require tests. Windows packaging must pass before merging.

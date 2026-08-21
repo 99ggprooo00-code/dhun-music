@@ -25,18 +25,18 @@ jobs:
             **/Directory.Build.props
             **/NuGet.config
       - uses: FedericoCarboni/setup-ffmpeg@v3.1
-      - name: Test Nagi core unchanged
-        run: dotnet test tests/Nagi.Core.Tests/Nagi.Core.Tests.csproj -c Release --logger "trx;logfilename=foundation-tests.trx"
+      - name: Test DHUN core
+        run: dotnet test tests/Dhun.Core.Tests/Dhun.Core.Tests.csproj -c Release --logger "trx;logfilename=foundation-tests.trx"
       - name: Create local empty app settings
         shell: pwsh
         run: |
-          @{ Discord = @{ AppId = '' }; NagiApiServer = @{ Url = ''; ApiKey = '' } } |
-            ConvertTo-Json -Depth 3 | Out-File src/Nagi.WinUI/appsettings.json -Encoding UTF8
+          @{ Discord = @{ AppId = '' }; DhunApiServer = @{ Url = ''; ApiKey = '' } } |
+            ConvertTo-Json -Depth 3 | Out-File src/Dhun.WinUI/appsettings.json -Encoding UTF8
       - name: Restore native Windows project
-        run: dotnet restore src/Nagi.WinUI/Nagi.WinUI.csproj
-      - name: Compile x64 native foundation unchanged
+        run: dotnet restore src/Dhun.WinUI/Dhun.WinUI.csproj
+      - name: Compile x64 DHUN native foundation
         run: >
-          dotnet publish src/Nagi.WinUI/Nagi.WinUI.csproj
+          dotnet publish src/Dhun.WinUI/Dhun.WinUI.csproj
           -c Release -r win-x64
           -p:Platform=x64
           -p:PublishReadyToRun=true

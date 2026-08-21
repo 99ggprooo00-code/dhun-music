@@ -46,9 +46,9 @@ Requirements:
 - FFmpeg for the test suite
 
 ```powershell
-dotnet test tests/Nagi.Core.Tests/Nagi.Core.Tests.csproj -c Release
-dotnet restore src/Nagi.WinUI/Nagi.WinUI.csproj
-dotnet publish src/Nagi.WinUI/Nagi.WinUI.csproj -c Release -r win-x64 -p:Platform=x64 -p:GenerateAppxPackageOnBuild=false
+dotnet test tests/Dhun.Core.Tests/Dhun.Core.Tests.csproj -c Release
+dotnet restore src/Dhun.WinUI/Dhun.WinUI.csproj
+dotnet publish src/Dhun.WinUI/Dhun.WinUI.csproj -c Release -r win-x64 -p:Platform=x64 -p:GenerateAppxPackageOnBuild=false
 ```
 
 ## Licensing

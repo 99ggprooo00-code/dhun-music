@@ -1,0 +1,9 @@
+{
+  "profiles": {
+    "Dhun (Package)": {
+      "commandName": "MsixPackage",
+      "alwaysReinstallApp": false,
+      "nativeDebugging": true
+    }
+  }
+}
