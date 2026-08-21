@@ -44,18 +44,6 @@ jobs:
           -p:AppxPackageSigningEnabled=False
           -p:PackageCertificateThumbprint=""
           -p:GenerateTemporaryStoreCertificate=False
-      - name: Smoke-test unpackaged native startup
-        shell: pwsh
-        run: |
-          $exe = Get-ChildItem 'src/Dhun.WinUI/bin/Release' -Filter 'DHUN.exe' -Recurse |
-            Where-Object { $_.FullName -match '[\\/]publish[\\/]DHUN\.exe$' } |
-            Select-Object -First 1
-          if (-not $exe) { throw 'Published DHUN.exe was not found.' }
-          $process = Start-Process -FilePath $exe.FullName -PassThru
-          Start-Sleep -Seconds 20
-          if ($process.HasExited) { throw "DHUN exited during startup smoke test with code $($process.ExitCode)." }
-          Stop-Process -Id $process.Id -Force
-          Write-Host 'DHUN remained alive for the 20-second startup smoke window.'
       - name: Build unsigned x64 sideload MSIX
         run: >
           dotnet msbuild src/Dhun.WinUI/Dhun.WinUI.csproj
@@ -67,6 +55,23 @@ jobs:
           /p:GenerateTemporaryStoreCertificate=False
           /p:UapAppxPackageBuildMode=SideloadOnly
           /p:AppxPackageDir=${{ github.workspace }}/artifacts/msix/
+      - name: Install and smoke-test unsigned MSIX
+        shell: pwsh
+        run: |
+          $msix = Get-ChildItem 'artifacts/msix' -Filter '*.msix' -Recurse | Select-Object -First 1
+          if (-not $msix) { throw 'Unsigned DHUN MSIX was not found.' }
+          Add-AppxPackage -Path $msix.FullName -AllowUnsigned
+          $package = Get-AppxPackage -Name 'DhunMusic.Dhun'
+          if (-not $package) { throw 'DHUN package registration failed.' }
+          $manifest = Get-AppxPackageManifest -Package $package
+          $appId = ($manifest.Package.Applications.Application | Select-Object -First 1).Id
+          Start-Process "shell:AppsFolder\$($package.PackageFamilyName)!$appId"
+          Start-Sleep -Seconds 20
+          $process = Get-Process -Name 'DHUN' -ErrorAction SilentlyContinue | Select-Object -First 1
+          if (-not $process) { throw 'DHUN did not remain alive during the packaged startup smoke test.' }
+          Stop-Process -Id $process.Id -Force
+          Remove-AppxPackage -Package $package.PackageFullName
+          Write-Host 'DHUN packaged startup smoke test passed.'
       - name: Upload unsigned native preview
         uses: actions/upload-artifact@v7.0.1
         with:
