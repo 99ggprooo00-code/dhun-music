@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Package
         xmlns="http://schemas.microsoft.com/appx/manifest/foundation/windows10"
         xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
@@ -10,7 +10,7 @@
 
     <Identity
             Name="DhunMusic.Dhun"
-            Publisher="CN=DHUN"
+            Publisher="CN=Unsigned"
             Version="0.1.0.0"/>
 
     <Properties>
