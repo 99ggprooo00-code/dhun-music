@@ -24,7 +24,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="SixLabors.ImageSharp" />
+        <PackageReference Include="SkiaSharp" />
         <PackageReference Include="SQLitePCLRaw.bundle_e_sqlite3" />
 
         <!-- Core Utilities & Services -->

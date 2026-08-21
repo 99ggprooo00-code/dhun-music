@@ -115,7 +115,7 @@
         <PackageReference Include="Serilog.Settings.Configuration" />
         <PackageReference Include="Serilog.Sinks.Debug" />
         <PackageReference Include="Serilog.Sinks.File" />
-        <PackageReference Include="SixLabors.ImageSharp" />
+        <PackageReference Include="SkiaSharp.NativeAssets.Win32" />
         <PackageReference Include="VideoLAN.LibVLC.Windows" />
     </ItemGroup>
 

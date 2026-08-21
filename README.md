@@ -85,7 +85,7 @@ Localization support for Nagi is powered by Crowdin. Contributions to add new la
 - **[Entity Framework Core (SQLite)](https://docs.microsoft.com/en-us/ef/core/)**: A modern object-relational mapper for .NET, used for local database storage.
 - **[ATL (Audio Tools Library)](https://github.com/Zeugma440/atldotnet)**: A versatile library for reading and writing metadata in audio files.
 - **[LrcParser](https://github.com/OpportunityLiu/LrcParser)**: For parsing LRC lyrics files.
-- **[SixLabors.ImageSharp](https://github.com/SixLabors/ImageSharp)**: A cross-platform library for image processing.
+- **[SkiaSharp](https://github.com/mono/SkiaSharp)**: MIT-licensed cross-platform image processing.
 - **[MaterialColorUtilities](https://github.com/material-foundation/material-color-utilities)**: For generating dynamic color schemes from artwork.
 - **[H.NotifyIcon.WinUI](https://github.com/HavenDV/H.NotifyIcon)**: For creating and managing the Windows tray icon.
 - **[Serilog](https://serilog.net/)**: A structured logging library for diagnostics and debugging.

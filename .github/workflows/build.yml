@@ -7,7 +7,6 @@ on:
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
-  SixLaborsLicenseKey: ${{ secrets.SIXLABORS_LICENSE_KEY }}
 
 jobs:
   test:

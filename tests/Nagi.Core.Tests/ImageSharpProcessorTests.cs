@@ -6,8 +6,7 @@ using Nagi.Core.Services.Abstractions;
 using Nagi.Core.Services.Implementations;
 using NSubstitute;
 using NSubstitute.ExceptionExtensions;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
+using SkiaSharp;
 using Xunit;
 
 namespace Nagi.Core.Tests;
@@ -218,7 +217,8 @@ public class ImageSharpProcessorTests
         var result = await _imageProcessor.ProcessImageBytesAsync(imageData, maxDimension: 300);
 
         result.Should().NotEqual(imageData);
-        using var image = Image.Load<Rgba32>(result);
+        using var image = SKBitmap.Decode(result);
+        image.Should().NotBeNull();
         image.Width.Should().Be(300);
         image.Height.Should().Be(150);
     }
@@ -236,10 +236,12 @@ public class ImageSharpProcessorTests
 
     private static byte[] CreateTestImageBytes(int width, int height)
     {
-        using var image = new Image<Rgba32>(width, height, new Rgba32(255, 0, 0));
-        using var stream = new MemoryStream();
-        image.SaveAsPng(stream);
-        return stream.ToArray();
+        using var bitmap = new SKBitmap(width, height);
+        using var canvas = new SKCanvas(bitmap);
+        canvas.Clear(SKColors.Red);
+        using var image = SKImage.FromBitmap(bitmap);
+        using var data = image.Encode(SKEncodedImageFormat.Png, 100);
+        return data.ToArray();
     }
 
     /// <summary>
