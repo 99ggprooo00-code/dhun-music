@@ -7,7 +7,16 @@ namespace Dhun.Core.Tests;
 public class FileExtensionsTests
 {
     [Theory]
+    [InlineData(".mp3")]
+    [InlineData(".flac")]
+    [InlineData(".aac")]
+    [InlineData(".m4a")]
+    [InlineData(".ogg")]
     [InlineData(".opus")]
+    [InlineData(".wav")]
+    [InlineData(".wma")]
+    [InlineData(".aiff")]
+    [InlineData(".ape")]
     [InlineData(".webm")]
     [InlineData(".mpc")]
     [InlineData(".mpp")]

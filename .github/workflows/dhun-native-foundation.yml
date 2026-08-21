@@ -44,6 +44,16 @@ jobs:
           -p:AppxPackageSigningEnabled=False
           -p:PackageCertificateThumbprint=""
           -p:GenerateTemporaryStoreCertificate=False
+      - name: Smoke-test unpackaged native startup
+        shell: pwsh
+        run: |
+          $exe = Get-ChildItem 'src/Dhun.WinUI/bin/Release/**/publish/DHUN.exe' -Recurse | Select-Object -First 1
+          if (-not $exe) { throw 'Published DHUN.exe was not found.' }
+          $process = Start-Process -FilePath $exe.FullName -PassThru
+          Start-Sleep -Seconds 20
+          if ($process.HasExited) { throw "DHUN exited during startup smoke test with code $($process.ExitCode)." }
+          Stop-Process -Id $process.Id -Force
+          Write-Host 'DHUN remained alive for the 20-second startup smoke window.'
       - name: Build unsigned x64 sideload MSIX
         run: >
           dotnet msbuild src/Dhun.WinUI/Dhun.WinUI.csproj
