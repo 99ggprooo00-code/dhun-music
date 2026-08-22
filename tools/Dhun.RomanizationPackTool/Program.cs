@@ -156,7 +156,7 @@ internal sealed class CatalogEntryMetadata
 internal sealed class PackToolOptions
 {
     public string SourceDirectory { get; private init; } = Path.Combine("tools", "romanization-packs", "src");
-    public string OutputDirectory { get; private init; } = Path.Combine("tools", "romanization-packs", "dist");
+    public string OutputDirectory { get; private init; } = Path.Combine("tools", "romanization-packs", "signed-packs");
     public string BaseDownloadUrl { get; private init; } = "https://github.com/Anthonyy232/Nagi/releases/download/romanization-packs";
 
     public static PackToolOptions Parse(string[] args)

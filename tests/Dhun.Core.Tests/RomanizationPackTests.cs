@@ -196,7 +196,7 @@ public sealed class RomanizationPackTests : IDisposable
     [Fact]
     public void DistCatalog_IsSignedAndMatchesGeneratedPackHashes()
     {
-        var distDirectory = Path.Combine(FindRepoRoot(), "tools", "romanization-packs", "dist");
+        var distDirectory = Path.Combine(FindRepoRoot(), "tools", "romanization-packs", "signed-packs");
         var catalogPath = Path.Combine(distDirectory, "catalog.json");
         var envelope = JsonSerializer.Deserialize<RomanizationCatalogEnvelope>(
             File.ReadAllText(catalogPath),
