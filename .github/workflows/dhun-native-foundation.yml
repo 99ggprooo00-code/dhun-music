@@ -55,14 +55,24 @@ jobs:
           /p:GenerateTemporaryStoreCertificate=False
           /p:UapAppxPackageBuildMode=SideloadOnly
           /p:AppxPackageDir=${{ github.workspace }}/artifacts/msix/
-      - name: Install and smoke-test unsigned MSIX
+      - name: Install Inno Setup
+        shell: pwsh
+        run: choco install innosetup --no-progress -y
+      - name: Build complete Windows EXE installer
         shell: pwsh
         run: |
-          $msix = Get-ChildItem 'artifacts/msix' -Filter '*.msix' -Recurse | Select-Object -First 1
-          if (-not $msix) { throw 'Unsigned DHUN MSIX was not found.' }
-          Add-AppxPackage -Path $msix.FullName -AllowUnsigned
+          $iscc = Join-Path ${env:ProgramFiles(x86)} 'Inno Setup 6\ISCC.exe'
+          & $iscc 'installer\DHUN.iss'
+          if ($LASTEXITCODE -ne 0) { throw 'Inno Setup failed.' }
+      - name: Install EXE and smoke-test packaged DHUN
+        shell: pwsh
+        run: |
+          $setup = Get-ChildItem 'artifacts/installer' -Filter '*.exe' | Select-Object -First 1
+          if (-not $setup) { throw 'DHUN Setup.exe was not found.' }
+          $installer = Start-Process -FilePath $setup.FullName -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART' -PassThru -Wait
+          if ($installer.ExitCode -ne 0) { throw "DHUN Setup.exe failed with code $($installer.ExitCode)." }
           $package = Get-AppxPackage -Name 'DhunMusic.Dhun'
-          if (-not $package) { throw 'DHUN package registration failed.' }
+          if (-not $package) { throw 'DHUN package registration failed after EXE installation.' }
           $manifest = Get-AppxPackageManifest -Package $package
           $appId = ($manifest.Package.Applications.Application | Select-Object -First 1).Id
           Start-Process "shell:AppsFolder\$($package.PackageFamilyName)!$appId"
@@ -70,24 +80,14 @@ jobs:
           $process = Get-Process -Name 'DHUN' -ErrorAction SilentlyContinue | Select-Object -First 1
           if (-not $process) { throw 'DHUN did not remain alive during the packaged startup smoke test.' }
           Stop-Process -Id $process.Id -Force
-          Remove-AppxPackage -Package $package.PackageFullName
-          Write-Host 'DHUN packaged startup smoke test passed.'
-      - name: Create portable x64 ZIP
-        shell: pwsh
-        run: |
-          $publish = Get-ChildItem 'src/Dhun.WinUI/bin/Release' -Directory -Recurse |
-            Where-Object { $_.Name -eq 'publish' -and (Test-Path (Join-Path $_.FullName 'DHUN.exe')) } |
-            Select-Object -First 1
-          if (-not $publish) { throw 'Published portable DHUN directory was not found.' }
-          New-Item -ItemType Directory -Force 'artifacts/portable' | Out-Null
-          Compress-Archive -Path (Join-Path $publish.FullName '*') -DestinationPath 'artifacts/portable/DHUN-Native-v1.0.0-x64-portable.zip' -CompressionLevel Optimal
-      - name: Upload native preview packages
+          $uninstaller = Join-Path $env:ProgramFiles 'DHUN\unins000.exe'
+          if (Test-Path $uninstaller) { Start-Process -FilePath $uninstaller -ArgumentList '/VERYSILENT','/SUPPRESSMSGBOXES','/NORESTART' -Wait }
+          Write-Host 'DHUN Setup.exe install/start/uninstall smoke test passed.'
+      - name: Upload complete EXE installer
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: DHUN-Native-v1.0.0-Windows-x64
-          path: |
-            artifacts/msix/**
-            artifacts/portable/*.zip
+          name: DHUN-Native-v1.0.0-Setup-x64
+          path: artifacts/installer/DHUN-Native-v1.0.0-Setup-x64.exe
           if-no-files-found: error
       - name: Upload test results on failure
         if: failure()
