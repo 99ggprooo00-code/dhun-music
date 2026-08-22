@@ -15,9 +15,9 @@ The native foundation already provides .NET 10, WinUI 3, MVVM, EF Core/SQLite, L
 - [x] Minimal catalog, search, lyrics and playback source contracts
 - [x] Document local-first architecture
 - [x] Record local-first architecture decision
-- [ ] Audit Core dependencies for UI/provider leakage
+- [x] Audit Core dependencies for UI/provider leakage and record the transitional boundary strategy
 - [ ] Review `LangVersion=preview` and remove it unless required
-- [ ] Add architecture tests where practical
+- [x] Add architecture tests where practical
 - [ ] Decide source-aware database migration after mapping tests stabilize
 
 ## Milestone 1 — Local library reliability
@@ -107,7 +107,7 @@ The native foundation already provides .NET 10, WinUI 3, MVVM, EF Core/SQLite, L
 - [x] Define source identity and capabilities
 - [x] Define catalog/search/lyrics/playback interfaces
 - [ ] Add source-aware persistence after migration design is validated
-- [ ] Add provider registry/availability handling
+- [x] Add provider registry/availability handling
 - [ ] Add source contract test suite
 
 ## Milestone 8 — Online provider research
