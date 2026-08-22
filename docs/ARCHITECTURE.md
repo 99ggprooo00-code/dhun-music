@@ -88,13 +88,13 @@ Queue, playlists, favorites and history operate on internal IDs plus source iden
 
 ## Source interfaces
 
-- `IMusicSource` — identity and capability declaration
+- `IMusicSource` — identity and capability declaration only
+- `ICatalogSource` — track, album, artist and playlist retrieval
 - `ISearchSource` — source search returning normalized results
-- `ICatalogSource` — artist, album and playlist retrieval
 - `ILyricsSource` — plain/synchronized lyric retrieval
 - `IPlaybackSource` — source-specific preparation behind a common playback contract
 
-Capabilities are explicit so the UI does not display actions a source cannot perform.
+Capability-specific interfaces are deliberate: a source can be registered without implementing every operation, and the UI can use `MusicSourceCapabilities` before invoking an optional interface.
 
 ## Playback boundary
 
