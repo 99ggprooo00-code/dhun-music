@@ -75,7 +75,7 @@ jobs:
       - name: Upload unsigned native preview
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: DHUN-Native-0.1.0-unsigned-x64
+          name: DHUN-Native-v1.0.0-unsigned-x64
           path: artifacts/msix/**
           if-no-files-found: error
       - name: Upload test results on failure

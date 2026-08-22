@@ -13,7 +13,7 @@ DHUN Native is forked from:
 - Replaced the build-key-enforced SixLabors.ImageSharp 4 dependency with MIT-licensed SkiaSharp.
 - Preserved the upstream `IImageProcessor` contract and image cache behavior.
 - Replaced visible Nagi product branding and Windows package identity with DHUN branding.
-- Reset the product version to DHUN `0.1.0`; this version will remain unchanged during foundation development.
+- Initially reset the inherited upstream version to DHUN `0.1.0`; the native preview was later designated `v1.0.0` by the project owner.
 - Removed upstream Azure deployment, signing, benchmarking, Crowdin, sponsorship media and release automation that depend on the upstream maintainer's infrastructure.
 - Retained internal `Nagi.*` namespaces temporarily so rebranding can proceed in tested stages instead of one dangerous global rename.
 

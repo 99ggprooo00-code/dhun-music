@@ -2,7 +2,7 @@
 
 A Windows-first, privacy-oriented music player combining a serious local library with a staged online-music architecture.
 
-> **Status:** native foundation work in progress. The product version remains `0.1.0` until the native migration and core feature set are complete.
+> **Status:** `v1.0.0` native preview. The Windows foundation passes automated tests and packaged startup checks, but remains unsigned and awaits broader real-device regression testing.
 
 ## Native foundation
 

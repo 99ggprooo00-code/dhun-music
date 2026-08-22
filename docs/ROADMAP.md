@@ -1,6 +1,6 @@
 # DHUN Native roadmap
 
-The product version remains `0.1.0` throughout foundation development. Milestones describe engineering progress, not public semantic versions.
+The native foundation is published as a `v1.0.0` prerelease. Milestones continue to describe engineering progress, and promotion to a stable release depends on real-device regression testing.
 
 ## Milestone 0 — Native foundation
 

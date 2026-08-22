@@ -19,4 +19,4 @@ Do not include real API keys, OAuth tokens, passwords, library databases, or pri
 
 ## Supported versions
 
-No stable version is supported yet. The version remains `0.1.0` during development.
+No stable version is supported yet. `v1.0.0` is a prerelease until real-device regression and signing requirements are completed.
