@@ -6,37 +6,53 @@ DHUN is a Windows-native local music player with optional online sources. Local 
 
 Online music is an extension of the player—not its foundation.
 
-## System overview
+## Current architecture and target
+
+DHUN already has a substantial native implementation in `Dhun.Core`. That project currently combines domain models, EF Core/SQLite persistence, metadata helpers, HTTP utilities, and application services. It is therefore **not yet a pure domain assembly**.
+
+The target is a clean boundary, but the project will reach it incrementally rather than through a risky rewrite. See ADR-0002 for the transition strategy.
 
 ```text
+Current
+
 Dhun.WinUI
-    │
-    ├── Application / MVVM
-    │     Home · Search · Library · Queue · Playlists · Settings
-    │
-    ├── Dhun.Core domain
-    │     Track · Album · Artist · Playlist · Source identity · Availability
-    │
-    ├── Local source
-    │     Scanner · ATL metadata · EF Core/SQLite · LibVLCSharp
-    │
-    ├── Optional online sources
-    │     Search · Catalog · Lyrics · Visible policy-compliant playback
-    │
-    └── Windows platform
-          WinUI 3 · SMTC · tray · file associations · startup · MSIX
+    |
+    v
+Dhun.Core
+    +-- domain/source contracts
+    +-- persistence
+    +-- metadata/filesystem services
+    +-- application services
+    +-- HTTP utilities
+
+Target
+
+Dhun.WinUI
+    |
+    v
+Application / use cases
+    |
+    v
+Domain + source contracts
+    |
+    +------ Infrastructure
+             +-- EF Core/SQLite
+             +-- filesystem/metadata
+             +-- LibVLCSharp
+             +-- HTTP/provider clients
 ```
 
 ## Dependency rules
 
 1. `Dhun.Core` must not depend on WinUI.
-2. Source-neutral domain contracts live in `Dhun.Core`.
+2. New source-neutral domain contracts must not introduce new infrastructure dependencies.
 3. Local entities may expose local paths only through local-source types.
 4. Online provider DTOs must not leak into queue, playlist, history, or UI state.
-5. The application layer maps source DTOs into source-neutral domain models.
+5. Application code should map source DTOs into source-neutral domain models.
 6. WinUI depends on abstractions, not provider implementations.
 7. Local playback must never depend on an online API, browser runtime, OAuth token, or remote service.
 8. Online failures must degrade to a visible unavailable state without damaging the local queue or database.
+9. Existing infrastructure in `Dhun.Core` may remain temporarily while it is being extracted behind tested boundaries.
 
 ## Source-neutral identity
 
@@ -98,7 +114,9 @@ Idle · Loading · Ready · Playing · Paused · Buffering · Ended · Error
 
 ## Persistence
 
-EF Core + SQLite remains the authoritative library store. The migration sequence is:
+EF Core + SQLite remains the authoritative local library store. The source-aware migration is intentionally deferred until mapping tests prove the model.
+
+When it is justified, the migration sequence is:
 
 1. Introduce source-neutral contracts.
 2. Add source kind and source ID columns with local defaults.
@@ -139,4 +157,4 @@ Real hardware remains required for audio output, Bluetooth, media keys, tray, sl
 - `main` contains reviewed, CI-passing increments.
 - Architecture and schema work is developed on focused branches.
 - Changes enter through pull requests.
-- The single visible release remains `v1.0.0`; milestone installers replace its asset only after regression gates pass.
+- The current architecture branch is intentionally kept focused until the local-player gates are proven.
