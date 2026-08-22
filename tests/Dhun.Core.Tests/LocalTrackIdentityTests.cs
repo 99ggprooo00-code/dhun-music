@@ -32,6 +32,26 @@ public sealed class LocalTrackIdentityTests
     }
 
     [Fact]
+    public async Task FilePathOverload_ProducesContentFingerprint()
+    {
+        var filePath = Path.Combine(Path.GetTempPath(), $"dhun-identity-{Guid.NewGuid():N}.tmp");
+        try
+        {
+            await File.WriteAllTextAsync(filePath, "dhun-test-audio");
+
+            var fingerprint = await LocalTrackIdentity.ComputeAsync(filePath);
+
+            await using var expectedContent = new MemoryStream(Encoding.UTF8.GetBytes("dhun-test-audio"));
+            var expected = await LocalTrackIdentity.ComputeAsync(expectedContent);
+            Assert.Equal(expected, fingerprint);
+        }
+        finally
+        {
+            File.Delete(filePath);
+        }
+    }
+
+    [Fact]
     public async Task ComputeAsync_ObservesCancellation()
     {
         await using var stream = new SlowStream(Encoding.UTF8.GetBytes(new string('x', 1024)));
