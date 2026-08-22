@@ -6,7 +6,7 @@ namespace Dhun.Core.Sources.Local;
 /// Adapts DHUN's existing local-library model to the source-neutral music contracts.
 /// Persistence and filesystem access remain outside this adapter.
 /// </summary>
-public sealed class LocalMusicSource : IMusicSource, ISearchSource
+public sealed class LocalMusicSource : IMusicSource, ICatalogSource, ISearchSource
 {
     private readonly Func<SourceIdentity, CancellationToken, Task<Song?>> _getSongAsync;
     private readonly Func<SourceSearchQuery, CancellationToken, Task<IReadOnlyList<Song>>> _searchAsync;
