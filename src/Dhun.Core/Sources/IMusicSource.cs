@@ -1,8 +1,8 @@
 namespace Dhun.Core.Sources;
 
 /// <summary>
-/// Common catalog contract implemented by a music source.
-/// Capabilities that a source does not advertise should not be invoked.
+/// Identity and capability declaration for a music source.
+/// Capability-specific interfaces should be used for operations.
 /// </summary>
 public interface IMusicSource
 {
@@ -10,20 +10,4 @@ public interface IMusicSource
     string DisplayName { get; }
     MusicSourceKind Kind { get; }
     MusicSourceCapabilities Capabilities { get; }
-
-    Task<SourceTrack?> GetTrackAsync(
-        SourceIdentity identity,
-        CancellationToken cancellationToken = default);
-
-    Task<SourceAlbum?> GetAlbumAsync(
-        SourceIdentity identity,
-        CancellationToken cancellationToken = default);
-
-    Task<SourceArtist?> GetArtistAsync(
-        SourceIdentity identity,
-        CancellationToken cancellationToken = default);
-
-    Task<SourcePlaylist?> GetPlaylistAsync(
-        SourceIdentity identity,
-        CancellationToken cancellationToken = default);
 }
