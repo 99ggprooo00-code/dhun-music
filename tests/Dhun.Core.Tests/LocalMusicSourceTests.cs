@@ -8,6 +8,16 @@ namespace Dhun.Core.Tests;
 public sealed class LocalMusicSourceTests
 {
     [Fact]
+    public void Capabilities_only_advertise_implemented_operations()
+    {
+        var source = CreateSource();
+
+        source.Capabilities.Should().Be(MusicSourceCapabilities.Search);
+        source.Capabilities.HasFlag(MusicSourceCapabilities.Catalog).Should().BeFalse();
+        source.Capabilities.HasFlag(MusicSourceCapabilities.Playback).Should().BeFalse();
+    }
+
+    [Fact]
     public async Task GetTrackAsync_rejects_non_local_identity()
     {
         var source = CreateSource();
