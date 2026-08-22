@@ -4,6 +4,7 @@ using Dhun.Core.Models;
 using Dhun.Core.Services.Abstractions;
 using Dhun.Core.Services.Implementations.Presence;
 using NSubstitute;
+using NSubstitute.Exceptions;
 using Xunit;
 
 namespace Dhun.Core.Tests;
@@ -42,6 +43,25 @@ public class PresenceManagerTests : IAsyncDisposable
     }
 
     public async ValueTask DisposeAsync() => await _manager.DisposeAsync();
+
+    private static async Task AssertEventuallyAsync(Func<Task> assertion)
+    {
+        var deadline = DateTime.UtcNow + TimeSpan.FromSeconds(5);
+        while (DateTime.UtcNow < deadline)
+        {
+            try
+            {
+                await assertion();
+                return;
+            }
+            catch (ReceivedCallsException)
+            {
+                await Task.Delay(25);
+            }
+        }
+
+        await assertion();
+    }
 
     // -------------------------------------------------------------------------
     // InitializeAsync
@@ -264,9 +284,8 @@ public class PresenceManagerTests : IAsyncDisposable
         _playbackService.IsPlaying.Returns(true);
         _playbackService.PlaybackStateChanged += Raise.Event<Action>();
 
-        await Task.Delay(200);
-
-        await _discordService.Received(1).OnPlaybackStateChangedAsync(true);
+        await AssertEventuallyAsync(() =>
+            _discordService.Received(1).OnPlaybackStateChangedAsync(true));
     }
 
     [Fact]
