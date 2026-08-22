@@ -72,11 +72,22 @@ jobs:
           Stop-Process -Id $process.Id -Force
           Remove-AppxPackage -Package $package.PackageFullName
           Write-Host 'DHUN packaged startup smoke test passed.'
-      - name: Upload unsigned native preview
+      - name: Create portable x64 ZIP
+        shell: pwsh
+        run: |
+          $publish = Get-ChildItem 'src/Dhun.WinUI/bin/Release' -Directory -Recurse |
+            Where-Object { $_.Name -eq 'publish' -and (Test-Path (Join-Path $_.FullName 'DHUN.exe')) } |
+            Select-Object -First 1
+          if (-not $publish) { throw 'Published portable DHUN directory was not found.' }
+          New-Item -ItemType Directory -Force 'artifacts/portable' | Out-Null
+          Compress-Archive -Path (Join-Path $publish.FullName '*') -DestinationPath 'artifacts/portable/DHUN-Native-v1.0.0-x64-portable.zip' -CompressionLevel Optimal
+      - name: Upload native preview packages
         uses: actions/upload-artifact@v7.0.1
         with:
-          name: DHUN-Native-v1.0.0-unsigned-x64
-          path: artifacts/msix/**
+          name: DHUN-Native-v1.0.0-Windows-x64
+          path: |
+            artifacts/msix/**
+            artifacts/portable/*.zip
           if-no-files-found: error
       - name: Upload test results on failure
         if: failure()
