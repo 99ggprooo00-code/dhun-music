@@ -10,7 +10,7 @@
 
     <Identity
             Name="DhunMusic.Dhun"
-            Publisher="CN=DHUN Development, OID.2.25.122407087008975748939002174685813570055=1"
+            Publisher="CN=AppModelSamples, OID.2.25.311729368913984317654407730594956997722=1"
             Version="0.1.0.0"/>
 
     <Properties>
