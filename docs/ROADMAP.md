@@ -2,6 +2,10 @@
 
 The native foundation is published as a `v1.0.0` prerelease. Milestones continue to describe engineering progress, and promotion to a stable release depends on real-device regression testing.
 
+## Local-first strategy
+
+DHUN's primary product is a fast, private, Windows-native local music player. Online sources are optional extensions and must never be required for library scanning, playback, playlists, queue, lyrics, statistics, or Windows integration. Source-neutral contracts are introduced before online provider code so provider-specific fields do not spread through the application.
+
 ## Milestone 0 — Native foundation
 
 - [x] Fork Nagi with upstream relationship intact
@@ -48,9 +52,9 @@ The native foundation is published as a `v1.0.0` prerelease. Milestones continue
 
 ## Milestone 3 — Online source contracts
 
-- [ ] Define source-neutral `Song`, `Album`, `Artist` and `Playlist` models
+- [x] Define source-neutral `Song`, `Album`, `Artist` and `Playlist` contracts
 - [ ] Extend database entities with source and source ID
-- [ ] Define catalog/search/home/lyrics/playback source interfaces
+- [x] Define catalog/search/lyrics/playback source interfaces
 - [ ] Implement official YouTube catalog provider
 - [ ] Implement visible official YouTube playback host
 - [ ] Add artist, album and playlist pages
