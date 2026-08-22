@@ -16,6 +16,7 @@ The product version remains `0.1.0` throughout foundation development. Milestone
 - [x] Preserve GPL provenance and dependency notices
 - [x] Rename internal projects and namespaces from `Nagi.*` to `Dhun.*`
 - [x] Generate a sideloadable unsigned MSIX for foundation testing
+- [x] Install the unsigned MSIX in Windows CI and verify a 20-second native startup window
 
 ## Milestone 1 — Local Windows player regression
 
