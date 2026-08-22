@@ -22,8 +22,9 @@ public sealed class LocalMusicSource : IMusicSource, ISearchSource
     public string Id => "local";
     public string DisplayName => "Local music";
     public MusicSourceKind Kind => MusicSourceKind.Local;
-    public MusicSourceCapabilities Capabilities =>
-        MusicSourceCapabilities.Catalog | MusicSourceCapabilities.Search | MusicSourceCapabilities.Playback;
+
+    // Only advertise capabilities that are fully implemented by this adapter.
+    public MusicSourceCapabilities Capabilities => MusicSourceCapabilities.Search;
 
     public async Task<SourceTrack?> GetTrackAsync(
         SourceIdentity identity,
