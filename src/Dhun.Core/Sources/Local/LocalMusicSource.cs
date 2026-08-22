@@ -4,19 +4,22 @@ namespace Dhun.Core.Sources.Local;
 
 /// <summary>
 /// Adapts DHUN's existing local-library model to the source-neutral music contracts.
-/// Persistence and filesystem scanning remain outside this adapter.
+/// Persistence and filesystem access remain outside this adapter.
 /// </summary>
 public sealed class LocalMusicSource : IMusicSource, ISearchSource
 {
     private readonly Func<SourceIdentity, CancellationToken, Task<Song?>> _getSongAsync;
     private readonly Func<SourceSearchQuery, CancellationToken, Task<IReadOnlyList<Song>>> _searchAsync;
+    private readonly Func<string, bool> _isFileAvailable;
 
     public LocalMusicSource(
         Func<SourceIdentity, CancellationToken, Task<Song?>> getSongAsync,
-        Func<SourceSearchQuery, CancellationToken, Task<IReadOnlyList<Song>>> searchAsync)
+        Func<SourceSearchQuery, CancellationToken, Task<IReadOnlyList<Song>>> searchAsync,
+        Func<string, bool> isFileAvailable)
     {
         _getSongAsync = getSongAsync ?? throw new ArgumentNullException(nameof(getSongAsync));
         _searchAsync = searchAsync ?? throw new ArgumentNullException(nameof(searchAsync));
+        _isFileAvailable = isFileAvailable ?? throw new ArgumentNullException(nameof(isFileAvailable));
     }
 
     public string Id => "local";
@@ -36,7 +39,7 @@ public sealed class LocalMusicSource : IMusicSource, ISearchSource
         }
 
         var song = await _getSongAsync(identity, cancellationToken).ConfigureAwait(false);
-        return song is null ? null : LocalSourceMapper.ToTrack(song);
+        return song is null ? null : LocalSourceMapper.ToTrack(song, _isFileAvailable);
     }
 
     public Task<SourceAlbum?> GetAlbumAsync(
@@ -74,7 +77,7 @@ public sealed class LocalMusicSource : IMusicSource, ISearchSource
             .ConfigureAwait(false);
 
         return new SourceSearchPage(
-            songs.Select(LocalSourceMapper.ToTrack).ToArray(),
+            songs.Select(song => LocalSourceMapper.ToTrack(song, _isFileAvailable)).ToArray(),
             Array.Empty<SourceAlbum>(),
             Array.Empty<SourceArtist>(),
             Array.Empty<SourcePlaylist>(),
@@ -84,9 +87,10 @@ public sealed class LocalMusicSource : IMusicSource, ISearchSource
 
 internal static class LocalSourceMapper
 {
-    public static SourceTrack ToTrack(Song song)
+    public static SourceTrack ToTrack(Song song, Func<string, bool> isFileAvailable)
     {
         ArgumentNullException.ThrowIfNull(song);
+        ArgumentNullException.ThrowIfNull(isFileAvailable);
 
         var artists = song.SongArtists
             .OrderBy(a => a.Order)
@@ -119,7 +123,7 @@ internal static class LocalSourceMapper
             song.Title,
             artists,
             song.Duration,
-            File.Exists(song.FilePath) ? MediaAvailability.Available : MediaAvailability.Unavailable,
+            isFileAvailable(song.FilePath) ? MediaAvailability.Available : MediaAvailability.Unavailable,
             album,
             TryCreateUri(artwork),
             false,
