@@ -90,11 +90,11 @@ internal static class LocalSourceMapper
 
         var artists = song.SongArtists
             .OrderBy(a => a.Order)
-            .Select(a => a.Artist?.Name)
-            .Where(name => !string.IsNullOrWhiteSpace(name))
-            .Select(name => new SourceArtist(
-                SourceIdentity.Local($"artist:{name}"),
-                name!))
+            .Select(a => a.Artist)
+            .Where(artist => artist is not null)
+            .Select(artist => new SourceArtist(
+                SourceIdentity.Local($"artist:{artist!.Id:N}"),
+                artist.Name))
             .ToArray();
 
         if (artists.Length == 0)
@@ -104,14 +104,15 @@ internal static class LocalSourceMapper
                 Artist.UnknownArtistName)];
         }
 
+        var artwork = song.Album?.CoverArtUri ?? song.AlbumArtUriFromTrack;
         SourceAlbum? album = song.Album is null
             ? null
             : new SourceAlbum(
                 SourceIdentity.Local($"album:{song.Album.Id:N}"),
                 song.Album.Title,
                 artists,
-                TryCreateUri(song.AlbumArtUriFromTrack),
-                song.Year);
+                TryCreateUri(artwork),
+                song.Album.Year ?? song.Year);
 
         return new SourceTrack(
             SourceIdentity.Local($"song:{song.Id:N}"),
@@ -120,7 +121,7 @@ internal static class LocalSourceMapper
             song.Duration,
             File.Exists(song.FilePath) ? MediaAvailability.Available : MediaAvailability.Unavailable,
             album,
-            TryCreateUri(song.AlbumArtUriFromTrack),
+            TryCreateUri(artwork),
             false,
             song.TrackNumber,
             song.DiscNumber);
