@@ -15,7 +15,7 @@ namespace Dhun.Core.Services.Implementations;
 public class MusicBrainzService : IMusicBrainzService
 {
     private const string BaseUrl = "https://musicbrainz.org/ws/2";
-    private const string UserAgent = "Dhun/1.0 (+https://github.com/Anthonyy232/Dhun)";
+    private const string UserAgent = "Dhun/1.0 (+https://github.com/99ggprooo00-code/dhun-music)";
 
     private readonly HttpClient _httpClient;
     private readonly IProviderPipelineProvider _pipelines;

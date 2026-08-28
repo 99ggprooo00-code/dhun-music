@@ -190,9 +190,7 @@ public class PresenceManagerTests : IAsyncDisposable
         _settingsService.GetDiscordRichPresenceEnabledAsync().Returns(true);
         _settingsService.DiscordRichPresenceSettingChanged += Raise.Event<Action<bool>>(true);
 
-        await Task.Delay(200); // let FireAndForgetSafe complete
-
-        await _discordService.Received(1).InitializeAsync();
+        await AssertEventuallyAsync(() => _discordService.Received(1).InitializeAsync());
     }
 
     [Fact]
@@ -207,9 +205,7 @@ public class PresenceManagerTests : IAsyncDisposable
         _settingsService.GetDiscordRichPresenceEnabledAsync().Returns(false);
         _settingsService.DiscordRichPresenceSettingChanged += Raise.Event<Action<bool>>(false);
 
-        await Task.Delay(200);
-
-        await _discordService.Received(1).OnPlaybackStoppedAsync();
+        await AssertEventuallyAsync(() => _discordService.Received(1).OnPlaybackStoppedAsync());
     }
 
     [Fact]
@@ -226,9 +222,7 @@ public class PresenceManagerTests : IAsyncDisposable
         _settingsService.GetLastFmScrobblingEnabledAsync().Returns(true);
         _settingsService.LastFmSettingsChanged += Raise.Event<Action>();
 
-        await Task.Delay(200);
-
-        await _lastFmService.Received(1).InitializeAsync();
+        await AssertEventuallyAsync(() => _lastFmService.Received(1).InitializeAsync());
     }
 
     // -------------------------------------------------------------------------
@@ -246,9 +240,7 @@ public class PresenceManagerTests : IAsyncDisposable
         _playbackService.CurrentListenHistoryId.Returns((long?)1L);
         _playbackService.TrackChanged += Raise.Event<Action>();
 
-        await Task.Delay(200);
-
-        await _discordService.Received(1).OnTrackChangedAsync(track, 1L);
+        await AssertEventuallyAsync(() => _discordService.Received(1).OnTrackChangedAsync(track, 1L));
     }
 
     [Fact]
@@ -270,9 +262,7 @@ public class PresenceManagerTests : IAsyncDisposable
         _playbackService.CurrentListenHistoryId.Returns((long?)null);
         _playbackService.TrackChanged += Raise.Event<Action>();
 
-        await Task.Delay(200);
-
-        await _discordService.Received(1).OnPlaybackStoppedAsync();
+        await AssertEventuallyAsync(() => _discordService.Received(1).OnPlaybackStoppedAsync());
     }
 
     [Fact]
@@ -299,9 +289,7 @@ public class PresenceManagerTests : IAsyncDisposable
         _playbackService.ScrobbleEligibilityReached +=
             Raise.Event<Action<Song, long, DateTime>>(song, 42L, listenStartedUtc);
 
-        await Task.Delay(200);
-
-        await _discordService.Received(1)
-            .OnTrackEligibleForScrobblingAsync(song, 42L, listenStartedUtc);
+        await AssertEventuallyAsync(() => _discordService.Received(1)
+            .OnTrackEligibleForScrobblingAsync(song, 42L, listenStartedUtc));
     }
 }

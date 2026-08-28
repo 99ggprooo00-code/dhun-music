@@ -31,6 +31,7 @@ using Dhun.Core.Services.Abstractions;
 using Dhun.Core.Services.Implementations;
 using Dhun.Core.Services.Implementations.Presence;
 using Dhun.Core.Services.Implementations.Romanization;
+using Dhun.Core.Utils;
 using Dhun.WinUI.Helpers;
 using Dhun.WinUI.Pages;
 using Dhun.WinUI.Services.Abstractions;
@@ -395,7 +396,7 @@ public partial class App : Application
             .ConfigureHttpClient(client =>
             {
                 client.Timeout = TimeSpan.FromSeconds(20);
-                client.DefaultRequestHeaders.UserAgent.ParseAdd("Dhun/1.0 (+https://github.com/Anthonyy232/Dhun)");
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Dhun/1.0 (+https://github.com/99ggprooo00-code/dhun-music)");
             })
             .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
             {
@@ -411,7 +412,7 @@ public partial class App : Application
             .ConfigureHttpClient(client =>
             {
                 client.Timeout = TimeSpan.FromSeconds(30);
-                client.DefaultRequestHeaders.UserAgent.ParseAdd("Dhun/1.0 (+https://github.com/Anthonyy232/Dhun)");
+                client.DefaultRequestHeaders.UserAgent.ParseAdd("Dhun/1.0 (+https://github.com/99ggprooo00-code/dhun-music)");
             })
             .ConfigurePrimaryHttpMessageHandler(() => new SocketsHttpHandler
             {
@@ -955,7 +956,8 @@ public partial class App : Application
                     fileEx.Message);
             }
 
-        var fullCrashReport = $"{logContent}\n\n--- EXCEPTION DETAILS ---\n{exceptionDetails}";
+        var fullCrashReport = CrashReportRedactor.Redact(
+            $"{logContent}\n\n--- EXCEPTION DETAILS ---\n{exceptionDetails}");
 
         if (MainDispatcherQueue == null)
         {
@@ -990,7 +992,7 @@ public partial class App : Application
                         Dhun.WinUI.Resources.Strings.CrashReport_Title,
                         Dhun.WinUI.Resources.Strings.CrashReport_Message,
                         fullCrashReport,
-                        "https://github.com/Anthonyy232/Dhun/issues"
+                        "https://github.com/99ggprooo00-code/dhun-music/issues"
                     );
 
                     if (result == CrashReportResult.Reset)

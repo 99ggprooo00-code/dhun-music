@@ -6,7 +6,7 @@
         -->
 
         <!-- General Project Properties -->
-        <LangVersion>preview</LangVersion>
+        <LangVersion>latest</LangVersion>
 
         <!-- Target Framework Versions -->
         <NetVersion>10.0</NetVersion>
