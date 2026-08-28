@@ -24,17 +24,25 @@ The native stack provides:
 
 ## DHUN direction
 
-DHUN will retain and rebrand the proven Windows infrastructure while adding an isolated online source layer and a unified model for local and online tracks.
+DHUN is **provider-first and local-first**: the full product architecture is built around source-neutral
+contracts and legal/local audio, and online providers are added one at a time later, each isolated behind an
+adapter. The whole roadmap ordering is recorded in
+[`docs/ADR/0004-lawful-provider-first-boundary.md`](docs/ADR/0004-lawful-provider-first-boundary.md);
+verified reference-product status and the P0–P3 feature map live in
+[`docs/UPSTREAM-FEATURE-MAP.md`](docs/UPSTREAM-FEATURE-MAP.md).
 
 Planned source boundary:
 
 ```text
-DHUN UI / Application Core
-├── Local source (Nagi/LibVLC foundation)
-└── Online source (official visible YouTube playback first)
+Dhun.Core.Sources (provider interface)
+├── Local source (Nagi/LibVLC foundation) — the reference workload, fully offline
+├── Future lawful providers (licensed / public-domain catalogs) — one adapter each
+└── Official metadata APIs — catalog/lyrics matching only, visible playback only
 ```
 
-DHUN will not implement hidden YouTube playback, ad removal, stream extraction, or access-control bypassing.
+DHUN will not implement stream or signature extraction, provider downloads/"offline mode", audio
+separation, hidden or background provider playback, ad removal, or access-control bypassing — these are
+permanently out of scope, not deferred.
 
 ## Build
 
@@ -55,4 +63,6 @@ dotnet publish src/Dhun.WinUI/Dhun.WinUI.csproj -c Release -r win-x64 -p:Platfor
 
 DHUN Native is licensed under GPL-3.0. See `LICENSE`, `UPSTREAM.md`, and `THIRD_PARTY.md`.
 
-The previous Electron implementation is preserved separately in the `dhun-music` repository under branch `legacy/electron-player-v2` and tag `electron-preview-archive-2026-08-22`.
+The previous Electron implementation is preserved separately in
+[`99ggprooo00-code/dhun-music-electron-archive`](https://github.com/99ggprooo00-code/dhun-music-electron-archive)
+under branch `legacy/electron-player-v2`.
