@@ -44,7 +44,7 @@ handles bad input, has a Core test, and leaks no secrets or user paths into logs
 - [x] Document local-first architecture
 - [x] Record local-first architecture decision
 - [x] Audit Core dependencies for UI/provider leakage and record the transitional boundary strategy
-- [ ] Review `LangVersion=preview` and remove it unless required
+- [x] Review `LangVersion=preview` and remove it unless required (landed in #10: `latest`, 0 warnings)
 - [x] Add architecture tests where practical
 - [ ] Decide source-aware database migration after mapping tests stabilize
 
@@ -60,7 +60,7 @@ handles bad input, has a Core test, and leaks no secrets or user paths into logs
 - [ ] Embedded artwork and artwork-cache regression
 - [ ] 10k-track performance test
 - [ ] 50k-track performance test
-- [ ] DHUN-owned crash diagnostics and privacy controls
+- [x] DHUN-owned crash diagnostics and privacy controls (redaction + DHUN report URL landed via #10; no telemetry, local-only export)
 
 ## Milestone 2 — Playback and queue reliability
 
