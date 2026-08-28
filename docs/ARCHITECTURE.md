@@ -6,6 +6,37 @@ DHUN is a Windows-native local music player with optional online sources. Local 
 
 Online music is an extension of the player—not its foundation.
 
+## Provider-first rule (ADR-0004)
+
+```text
+Local files ··┐
+Licensed /····┤
+own audio ····├──► provider interface (Dhun.Core.Sources) ──► music domain ──► UI
+Public-domain─┘            (search · catalog · lyrics · playback)
+```
+
+The UI and application layer never know whether a track came from a file, a licensed catalog, or a future
+provider; they consume `SourceTrack`/`SourceAlbum`/`SourceArtist`/`SourcePlaylist` through the registry.
+Provider parsing stops inside the adapter. No extraction, download, audio-separation, hidden-playback or
+circumvention code exists anywhere in the product; the boundary and its reasons are recorded in
+`docs/ADR/0004-lawful-provider-first-boundary.md`, and the verified policy background in
+`docs/UPSTREAM-FEATURE-MAP.md`.
+
+## Online metadata caching policy
+
+Online metadata may be cached locally; provider media may never be. Guidance for future adapters:
+
+| Data | Lifetime | Notes |
+|------|----------|-------|
+| Search results | 5–30 min, memory only | Never persisted across restart |
+| Album/artist catalog metadata | ~1 day, revalidated | Normalized into source models on write |
+| Artwork | Long-lived, size-capped cache | Evicted by LRU; never blocks local art |
+| Lyrics | Long-lived with manual refresh | Existing LRC cache rules apply |
+| Provider availability | ~5 min | Failure degrades to `MediaAvailability.Unavailable` |
+
+Online cache eviction must never touch user playlists, favorites or history, and cache tables stay separate
+from library tables.
+
 ## Current architecture and target
 
 DHUN already has a substantial native implementation in `Dhun.Core`. That project currently combines domain models, EF Core/SQLite persistence, metadata helpers, HTTP utilities, and application services. It is therefore **not yet a pure domain assembly**.

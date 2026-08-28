@@ -4,6 +4,34 @@ DHUN is being developed as a **native Windows local music player first**. Online
 
 The native foundation already provides .NET 10, WinUI 3, MVVM, EF Core/SQLite, LibVLCSharp, ATL metadata extraction, local library scanning, queue, playlists, smart playlists, history, synchronized lyrics, EQ, ReplayGain, mini-player, tray, media controls, file associations and startup integration. The current focus is turning that foundation into a reliable daily-driver local player.
 
+The order of work is fixed by [`docs/ADR/0004-lawful-provider-first-boundary.md`](ADR/0004-lawful-provider-first-boundary.md): the provider abstraction and local/legal audio come first, and each online provider is added independently, later, and only if lawful. **The first milestone is not a YouTube pipeline.** Reference products (Metrolist, VIVI) are studied for architecture and product ideas only; their verified current status and the feature map DHUN derives from them live in [`docs/UPSTREAM-FEATURE-MAP.md`](UPSTREAM-FEATURE-MAP.md).
+
+## Feature priority contract
+
+P0 — must work, fully local, before any online code ships (Milestones 1–3):
+
+- library scan/watch with stable identity; play/pause/seek/next/previous; queue add/remove/reorder/clear
+- playlists, favorites, history; embedded + LRC lyrics; keyboard-first navigation; SMTC/media keys
+- crash diagnostics with redaction (local-only unless the user exports)
+
+P1 — very important, still local (Milestones 2–5):
+
+- shuffle/repeat semantics including artist-aware smart shuffle (`QueueShuffler` in Core)
+- gapless, crossfade, ReplayGain, EQ, sleep timer; smart playlists; unified local search
+- listening statistics; resume-after-restart; folder watching
+
+P2 — premium quality (Milestone 5):
+
+- dynamic artwork theme, visualizer, karaoke-style word-synced lyrics, romanization UX, mini-player polish
+
+P3 — expansion, each item requires its own ADR first (Milestones 7–10):
+
+- lawful online providers behind the source contracts; optional user-data sync; ARM64; packaging
+
+Every P0/P1 feature is only "done" when it passes the definition-of-done checklist in
+[`docs/UPSTREAM-FEATURE-MAP.md`](UPSTREAM-FEATURE-MAP.md): works offline with local files, survives restart,
+handles bad input, has a Core test, and leaks no secrets or user paths into logs.
+
 ## Milestone 0 — Architecture stabilization
 
 - [x] Fork Nagi with upstream relationship intact
@@ -38,6 +66,8 @@ The native foundation already provides .NET 10, WinUI 3, MVVM, EF Core/SQLite, L
 
 - [ ] Deterministic playback state transitions
 - [ ] Queue add/remove/reorder/clear
+- [x] Pure, testable shuffle ordering core (`QueueShuffler`, deterministic seeds, smart no-adjacent-artist mode)
+- [ ] Wire `QueueShuffler` into `MusicPlaybackService.GenerateShuffledQueue()` behind a setting
 - [ ] Shuffle and repeat semantics
 - [ ] Resume playback
 - [ ] Playback error recovery
@@ -112,13 +142,16 @@ The native foundation already provides .NET 10, WinUI 3, MVVM, EF Core/SQLite, L
 
 ## Milestone 8 — Online provider research
 
-- [ ] Review current official YouTube capabilities and terms
-- [ ] Determine supported catalog/search/authentication flows
-- [ ] Determine supported visible playback model
+Findings are recorded in [`docs/UPSTREAM-FEATURE-MAP.md`](UPSTREAM-FEATURE-MAP.md). Verified status changes the research scope:
+
+- [x] Review current reference-project status — Metrolist's Android app is in maintenance mode while the project migrates to Kotlin Multiplatform; it is a feature-vocabulary reference, not an implementation template.
+- [x] Review current official YouTube capabilities and terms — the YouTube API Services policies prohibit downloading/caching/storing audiovisual content, offline playback, audio separation and background playback of content; the Terms restrict downloading, modifying and circumventing protections.
+- [ ] **Permanently out of scope:** unofficial stream/signature extraction, YouTube downloads/"offline mode", background or hidden-window playback of provider media, ad or access-control circumvention (see ADR-0004).
+- [ ] Determine supported catalog/search/authentication flows for each candidate provider individually
+- [ ] Determine supported visible playback model (embed/official surfaces only)
 - [ ] Prototype only within supported/provider-compliant boundaries
 - [ ] Keep provider implementation isolated from local/LibVLC playback
-
-No hidden playback, stream extraction, ad removal, downloading, or access-control bypassing.
+- [ ] Offline scope stays "user-owned and licensed content only": any future download manager manages local files, licensed catalogs and public-domain sources, never provider media
 
 ## Milestone 9 — Unified music
 
