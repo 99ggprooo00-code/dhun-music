@@ -196,7 +196,7 @@ internal static class LocalSourceMapper
         return new SourceArtist(
             SourceIdentity.Local($"artist:{artist.Id:N}"),
             artist.Name,
-            TryCreateUri(artist.ImageUri));
+            TryCreateUri(artist.RemoteImageUrl));
     }
 
     public static SourcePlaylist ToPlaylist(Playlist playlist)
