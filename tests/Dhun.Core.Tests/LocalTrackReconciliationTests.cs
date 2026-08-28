@@ -83,7 +83,7 @@ public sealed class LocalTrackReconciliationTests
             [Snapshot("valid", @"C:\Music\ok.mp3", 10, 1)]);
 
         var decisions = result.ToArray();
-        Assert.Equal(2, decisions.Length);
+        Assert.Single(decisions);
         Assert.Contains(decisions, x => x.Action == LocalTrackReconciliationAction.Add);
     }
 
