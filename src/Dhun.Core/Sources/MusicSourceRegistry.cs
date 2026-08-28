@@ -34,7 +34,13 @@ public sealed class MusicSourceRegistry
             return false;
         }
 
-        return _sources.TryGetValue(id, out source);
+        if (_sources.TryGetValue(id, out source))
+        {
+            return true;
+        }
+
+        source = null;
+        return false;
     }
 
     public IMusicSource GetRequired(string id)

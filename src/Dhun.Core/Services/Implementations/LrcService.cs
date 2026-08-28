@@ -7,6 +7,7 @@ using Dhun.Core.Helpers;
 using Dhun.Core.Models;
 using Dhun.Core.Models.Lyrics;
 using Dhun.Core.Services.Abstractions;
+using Dhun.Core.Utils;
 
 namespace Dhun.Core.Services.Implementations;
 
@@ -278,7 +279,7 @@ public class LrcService : ILrcService, IDisposable
     {
         if (parsedLrc is null || parsedLrc.IsEmpty) return null;
 
-        var index = FindBestMatchIndex(parsedLrc.Lines, currentTime);
+        var index = ActiveLyricLineLocator.FindActiveIndex(parsedLrc.Lines, currentTime);
         return index != -1 ? parsedLrc.Lines[index] : null;
     }
 
@@ -287,51 +288,8 @@ public class LrcService : ILrcService, IDisposable
     {
         if (parsedLrc is null || parsedLrc.IsEmpty) return null;
 
-        var lines = parsedLrc.Lines;
-        var lineCount = lines.Count;
-
-        // Check if the current or next line is the correct one, which is the most common case during playback.
-        if (searchStartIndex >= 0 && searchStartIndex < lineCount)
-        {
-            var currentLine = lines[searchStartIndex];
-            var nextLineStartTime = searchStartIndex + 1 < lineCount
-                ? lines[searchStartIndex + 1].StartTime
-                : TimeSpan.MaxValue;
-
-            if (currentLine.StartTime <= currentTime && currentTime < nextLineStartTime) return currentLine;
-        }
-
-        // If the hint was wrong (e.g., due to seeking), perform a full binary search.
-        var bestMatchIndex = FindBestMatchIndex(lines, currentTime);
-        searchStartIndex = bestMatchIndex != -1 ? bestMatchIndex : 0;
-
-        return bestMatchIndex != -1 ? lines[bestMatchIndex] : null;
-    }
-
-    /// <summary>
-    ///     Performs a binary search to find the index of the lyric line that should be active at the given time.
-    /// </summary>
-    private int FindBestMatchIndex(IReadOnlyList<LyricLine> lines, TimeSpan currentTime)
-    {
-        var low = 0;
-        var high = lines.Count - 1;
-        var latestMatchIndex = -1;
-
-        while (low <= high)
-        {
-            var mid = low + (high - low) / 2;
-            if (lines[mid].StartTime <= currentTime)
-            {
-                latestMatchIndex = mid;
-                low = mid + 1;
-            }
-            else
-            {
-                high = mid - 1;
-            }
-        }
-
-        return latestMatchIndex;
+        var index = ActiveLyricLineLocator.FindActiveIndex(parsedLrc.Lines, currentTime, ref searchStartIndex);
+        return index != -1 ? parsedLrc.Lines[index] : null;
     }
 
     private void OnFetchOnlineLyricsEnabledChanged(bool isEnabled)
