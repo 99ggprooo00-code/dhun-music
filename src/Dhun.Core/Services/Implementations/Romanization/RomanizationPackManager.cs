@@ -12,7 +12,7 @@ namespace Dhun.Core.Services.Implementations.Romanization;
 
 public sealed class RomanizationPackManager : IRomanizationPackManager
 {
-    public const string DefaultCatalogUrl = "https://github.com/Anthonyy232/Dhun/releases/download/romanization-packs/catalog.json";
+    public const string DefaultCatalogUrl = "https://github.com/99ggprooo00-code/dhun-music/releases/download/romanization-packs/catalog.json";
     private static readonly HashSet<string> AllowedPackExtensions = new(StringComparer.OrdinalIgnoreCase)
     {
         ".csv",
