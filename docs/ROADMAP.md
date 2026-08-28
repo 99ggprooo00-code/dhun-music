@@ -52,7 +52,8 @@ handles bad input, has a Core test, and leaks no secrets or user paths into logs
 
 - [ ] Real-device library scan regression
 - [ ] Incremental scanning and cancellation
-- [ ] File move/rename detection
+- [x] Move/rename + change detection core (`LocalFileSystemEventNormalizer`, deterministic `LocalTrackReconciliation.Plan` via #14; watcher + persistence wiring still pending)
+- [ ] Wire reconciliation planner into the library scanner and DB writes
 - [ ] Missing/corrupt-file handling
 - [ ] Track identity independent of display path
 - [ ] Verify MP3, FLAC, AAC, M4A, OGG, Opus, WAV, WMA, AIFF and APE
