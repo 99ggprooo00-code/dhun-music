@@ -10,8 +10,9 @@ public sealed class LocalMusicSourceCatalogTests
     [Fact]
     public async Task Catalog_adapters_are_advertised_only_when_all_are_available()
     {
+        var albumId = Guid.Parse("11111111-1111-1111-1111-111111111111");
         var source = CreateSource(
-            (_, _) => Task.FromResult<Album?>(new Album { Title = "Album" }),
+            (_, _) => Task.FromResult<Album?>(new Album { Id = albumId, Title = "Album" }),
             (_, _) => Task.FromResult<Artist?>(new Artist { Name = "Artist" }),
             (_, _) => Task.FromResult<Playlist?>(new Playlist { Name = "Playlist" }));
 
@@ -24,7 +25,7 @@ public sealed class LocalMusicSourceCatalogTests
 
         album.Should().NotBeNull();
         album!.Title.Should().Be("Album");
-        album.Identity.Should().Be(SourceIdentity.Local("album:00000000000000000000000000000000"));
+        album.Identity.Should().Be(SourceIdentity.Local("album:11111111111111111111111111111111"));
         artist.Should().NotBeNull();
         artist!.Name.Should().Be("Artist");
         playlist.Should().NotBeNull();
